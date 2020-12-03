@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClCompile Include="Dec01.cpp" />
     <ClCompile Include="Dec02.cpp" />
+    <ClCompile Include="Dec03.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>

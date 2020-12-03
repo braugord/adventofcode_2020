@@ -2,7 +2,7 @@
 
 int main(int argc, char** argv)
 {
-	Dec02::Puzzle2();
+	Dec03::Puzzle2();
 
 	return 1;
 }
