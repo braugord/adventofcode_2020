@@ -22,7 +22,7 @@ void Dec03::Puzzle1()
 				grid.push_back(line[i]);
 			}
 		} while (std::getline(file, line));
-		height = grid.size() / 31;
+		height = grid.size() / width;
 
 		int x = 0;
 		int y = 0;
@@ -33,8 +33,7 @@ void Dec03::Puzzle1()
 			y++;
 			
 			int index = (x % width) + y * width;
-			char c = grid[index];
-			if (c == '#')
+			if (grid[index] == '#')
 			{
 				trees++;
 			}
@@ -61,11 +60,15 @@ void Dec03::Puzzle2()
 				grid.push_back(line[i]);
 			}
 		} while (std::getline(file, line));
-		height = grid.size() / 31;
+		height = grid.size() / width;
 
 		
 		unsigned int totaltrees = 1;
-		std::vector<std::pair<int, int>> traversal{ {1,1}, {3,1}, {5,1}, {7,1}, {1,2} };
+		std::vector<std::pair<int, int>> traversal{ {1,1}, 
+													{3,1}, 
+													{5,1}, 
+													{7,1}, 
+													{1,2} };
 		for (std::pair<int, int> pair : traversal)
 		{
 			int x = 0;
@@ -77,8 +80,7 @@ void Dec03::Puzzle2()
 				y += pair.second;
 
 				int index = (x % width) + y * width;
-				char c = grid[index];
-				if (c == '#')
+				if (grid[index] == '#')
 				{
 					trees++;
 				}

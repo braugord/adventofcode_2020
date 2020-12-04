@@ -20,3 +20,9 @@ public:
 	static void Puzzle1();
 	static void Puzzle2();
 };
+
+class Dec04
+{
+public:
+	static void Puzzle();
+};
