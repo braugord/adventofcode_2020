@@ -26,3 +26,9 @@ class Dec04
 public:
 	static void Puzzle();
 };
+
+class Dec05
+{
+public:
+	static void Puzzle();
+};

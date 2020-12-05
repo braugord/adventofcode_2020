@@ -30,6 +30,9 @@
     <ClCompile Include="Dec04.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Dec05.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Advent_of_code.h">
