@@ -32,3 +32,18 @@ class Dec05
 public:
 	static void Puzzle();
 };
+
+class Dec06
+{
+public:
+	static void Puzzle1();
+	static void Puzzle2();
+};
+
+
+class Dec07
+{
+public:
+	static void Puzzle1();
+	static void Puzzle2();
+};
