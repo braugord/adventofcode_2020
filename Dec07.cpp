@@ -33,7 +33,7 @@ int BagCount(Bag* bag)
     return count;
 }
 
-void Dec07::Puzzle1()
+void Dec07::Puzzle()
 {
     std::string line = "";
     std::ifstream file("Dec07_PuzzleInput.txt");

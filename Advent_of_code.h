@@ -44,6 +44,12 @@ public:
 class Dec07
 {
 public:
-	static void Puzzle1();
-	static void Puzzle2();
+	static void Puzzle();
+};
+
+
+class Dec08
+{
+public:
+	static void Puzzle();
 };
