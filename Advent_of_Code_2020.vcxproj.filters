@@ -48,6 +48,9 @@
     <ClCompile Include="Dec10.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Dec11.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Advent_of_code.h">

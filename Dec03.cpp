@@ -9,8 +9,8 @@ void Dec03::Puzzle1()
 	std::vector<char> grid;
 	std::string line = "";
 	std::ifstream file("Dec03_PuzzleInput.txt");
-	int width = 0;
-	int height = 0;
+	size_t width = 0;
+	size_t height = 0;
 	if (file.is_open())
 	{
 		std::getline(file, line);
@@ -32,7 +32,7 @@ void Dec03::Puzzle1()
 			x += 3;
 			y++;
 			
-			int index = (x % width) + y * width;
+			size_t index = (x % width) + y * width;
 			if (grid[index] == '#')
 			{
 				trees++;
@@ -47,8 +47,8 @@ void Dec03::Puzzle2()
 	std::vector<char> grid;
 	std::string line = "";
 	std::ifstream file("Dec03_PuzzleInput.txt");
-	int width = 0;
-	int height = 0;
+	size_t width = 0;
+	size_t height = 0;
 	if (file.is_open())
 	{
 		std::getline(file, line);
@@ -79,7 +79,7 @@ void Dec03::Puzzle2()
 				x += pair.first;
 				y += pair.second;
 
-				int index = (x % width) + y * width;
+				size_t index = (x % width) + y * width;
 				if (grid[index] == '#')
 				{
 					trees++;

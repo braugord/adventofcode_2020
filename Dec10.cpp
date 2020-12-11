@@ -65,7 +65,22 @@ void Dec10::Puzzle()
 	int nextblock = 0;
 	while (nextblock != data.size())
 	{
-		final *= Traverse2(data, nextblock, nextblock);
+		final *= Traverse2(data, nextblock, nextblock); // Only traverses blocks
 	}
+
+	// Alternative Solution
+	//std::vector<long long> permutations(data.size());
+	//permutations[permutations.size() - 1] = 1;
+
+	//for (int i = permutations.size() - 2; i >= 0; i--)
+	//{
+	//	for (int j = i + 1; j < permutations.size() && data[j] - data[i] <= 3; j++)
+	//	{
+	//		permutations[i] += permutations[j];
+	//		//printf("data[%d](%d) - data[%d](%d) <= 3 \n", j, data[j], i, data[i]);
+	//		//printf("	Permitations[%d](%d) adding Permutation[%d](%d) \n", i, permutations[i], j, permutations[j]);
+	//		
+	//	}
+	//}
 	return;
 }
