@@ -49,6 +49,8 @@ char EvolveSeat(std::vector<std::string>& in, int x_in, int y_in, bool vision, i
 		return (count >= limit ? 'L' : '#');
 	if(in[y_in][x_in] == 'L')
 		return (count == 0 ? '#' : 'L');
+
+	return false;
 }
 bool EvolveLayout(std::vector<std::string>& in, std::vector<std::string>& out, bool vision, int limit)
 {

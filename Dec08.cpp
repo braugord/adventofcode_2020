@@ -70,6 +70,7 @@ int Puzzle2(std::vector<Instruction>& instructions)
 
 		(instructions[i].command == "nop" ? instructions[i].command = "jmp" : instructions[i].command = "nop");
 	}
+	return -1;
 }
 
 

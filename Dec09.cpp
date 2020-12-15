@@ -8,9 +8,9 @@
 
 bool FindInPreamble(std::vector<unsigned int>& list)
 {
-	for (int i = list.size()-26; i < list.size() - 2; i++)
+	for (size_t i = list.size()-26; i < list.size() - 2; i++)
 	{
-		for (int j = i + 1; j < list.size() - 1; j++)
+		for (size_t j = i + 1; j < list.size() - 1; j++)
 		{
 			if (list[i] + list[j] == list.back())
 			{
@@ -73,7 +73,7 @@ void Dec09::Puzzle()
 		while (std::getline(file, line))
 		{
 			auto value = std::stoull(line);
-			list.push_back(value);
+			list.push_back(static_cast<unsigned int>(value));
 			if (!weakness)
 				if (list.size() > 26)
 					if (!FindInPreamble(list))
