@@ -125,6 +125,7 @@ void Dec14::Puzzle()
 		}
 	}
 	delete[] part1;
+	std::cout << "Part1: " << total << "\n";
 
 	// Part 2
 	std::unordered_map<std::bitset<36>, long> part2;
@@ -149,5 +150,6 @@ void Dec14::Puzzle()
 	{
 		total += pair.second;
 	}
+	std::cout << "Part2: " << total << "\n";
 	return;
 }
