@@ -3,20 +3,18 @@
 #include <sstream>
 #include <string>
 #include <vector>
-#include <unordered_map>
-#include <iostream>
 
 
 template <typename T>
-struct Vector3
+struct Vector4
 {
-	T x, y, z;
+	T x, y, z, w;
 };
 
 struct Cube
 {
-	static const std::vector<Vector3<int>> adjacentCubes;
-	Vector3<int> position;
+	static std::vector<Vector4<int>> adjacentCubes;
+	Vector4<int> position;
 	bool active;
 	int activeAdjacentCubes;
 	void Print()
@@ -24,65 +22,67 @@ struct Cube
 		printf("Cube (%d,%d,%d) \n", position.x, position.y, position.z);
 
 	}
+	static void GenerateAdjacentCubeCoords()
+	{
+		adjacentCubes.clear();
+		for (int w = 1; w > -2; w--)
+			for (int z = 1; z > -2; z--)
+				for (int y = 1; y > -2; y--)
+					for (int x = -1; x < 2; x++)
+						adjacentCubes.push_back({ x,y,z,w });
+		adjacentCubes.erase(adjacentCubes.begin() + adjacentCubes.size()/2);
+	}
 };
 
-														// z +1
-const std::vector<Vector3<int>> Cube::adjacentCubes = { {-1, 1, 1}, {0, 1, 1}, {1, 1, 1},   
-														{-1, 0, 1}, {0, 0, 1}, {1, 0, 1},   
-														{-1,-1, 1}, {0,-1, 1}, {1,-1, 1},   
-														// z 0
-														{-1, 1, 0}, {0, 1, 0}, {1, 1, 0},  
-														{-1, 0, 0},            {1, 0, 0},  
-														{-1,-1, 0}, {0,-1, 0}, {1,-1, 0},  
-														// z -1
-														{-1, 1, -1}, {0, 1,-1}, {1, 1,-1},
-														{-1, 0, -1}, {0, 0,-1}, {1, 0,-1},
-														{-1,-1, -1}, {0,-1,-1}, {1,-1,-1}};
+std::vector<Vector4<int>> Cube::adjacentCubes;
+				
 struct PocketDimension
 {
-	Vector3<int> dimensions;
+	Vector4<int> dimensions;
 	int count;
 	Cube* cubes;
-	PocketDimension(int x, int y, int z)
+	PocketDimension(int x, int y, int z, int w)
 	{
-		dimensions = { x, y, z };
-		count = x * y * z;
+		dimensions = { x, y, z, w };
+		count = x * y * z * w;
 		cubes = new Cube[count];
 		for (int i = 0; i < count; i++)
 		{
 			cubes[i].position.x = i % dimensions.x;
 			cubes[i].position.y = (i / dimensions.x) % dimensions.y;
-			cubes[i].position.z = (i / (dimensions.x * dimensions.y));
+			cubes[i].position.z = (i / (dimensions.x * dimensions.y) % dimensions.z);
+			cubes[i].position.w = (i / (dimensions.x * dimensions.y * dimensions.z));
 			cubes[i].active = false;
 			cubes[i].activeAdjacentCubes = 0;
-			//printf("Cube[%d] (%d,%d,%d) \n", i, cubes[i].position.x, cubes[i].position.y, cubes[i].position.z);
 		}
 	}
 
-	Cube* GetCube(int x, int y, int z)
+	Cube* GetCube(int x, int y, int z, int w)
 	{
 		if (x < 0 || x > dimensions.x-1 ||
 			y < 0 || y > dimensions.y-1 ||
-			z < 0 || z > dimensions.z-1)
+			z < 0 || z > dimensions.z-1 ||
+			w < 0 || w > dimensions.w - 1)
 			return nullptr;
 
-		int index = x + (y * dimensions.x) + (z * dimensions.x * dimensions.y);
+		int index = x + (y * dimensions.x) + (z * dimensions.x * dimensions.y) + (w * dimensions.x * dimensions.y * dimensions.z);
 		
 
-		return &cubes[x + (y * dimensions.x) + (z * dimensions.x * dimensions.y)];
+		return &cubes[index];
 	}
 
 	void SetActive(std::vector<char>& chars, char active)
 	{
 		int localDimension = sqrt(chars.size());
 
-		Cube* middle = GetCube(dimensions.x / 2, dimensions.y / 2, dimensions.z / 2);
+		Cube* middle = GetCube(dimensions.x / 2, dimensions.y / 2, dimensions.z / 2, dimensions.w / 2);
 		for (int i = 0; i < chars.size(); i++)
 		{
 			int x = middle->position.x + -(localDimension / 2) + (i % localDimension);
 			int y = middle->position.y + -(localDimension / 2) + (i / localDimension);
 			int z = middle->position.z;
-			Cube* cube = GetCube(x, y, z);
+			int w = middle->position.w;
+			Cube* cube = GetCube(x, y, z, w);
 
 			if (chars[i] == active)
 				cube->active = true;
@@ -99,7 +99,8 @@ struct PocketDimension
 			{
 				Cube* cube = GetCube(cubes[i].position.x + Cube::adjacentCubes[j].x,
 									 cubes[i].position.y + Cube::adjacentCubes[j].y,
-									 cubes[i].position.z + Cube::adjacentCubes[j].z);
+									 cubes[i].position.z + Cube::adjacentCubes[j].z,
+									 cubes[i].position.w + Cube::adjacentCubes[j].w);
 				if(cube)
 					if (cube->active)
 						cubes[i].activeAdjacentCubes++;
@@ -125,50 +126,6 @@ struct PocketDimension
 				else
 					cubes[i].active = false;
 			}
-		}
-	}
-
-	void PrintActive()
-	{
-		for (int i = 0; i < count; i++)
-		{
-			if(cubes[i].active)
-				printf("Active Cube[%d] (%d,%d,%d) \n", i, cubes[i].position.x, cubes[i].position.y, cubes[i].position.z);
-		}
-	}
-	void PrintZ()
-	{
-		printf("\nPrint Z \n");
-		for (int i = 0; i < count; i++)
-		{
-			if (i % (dimensions.x * dimensions.y) == 0)
-				printf("\n\nZ = %d", i / (dimensions.x * dimensions.y) - dimensions.x / 2);
-
-			if (i % dimensions.x == 0)
-				printf("\n");
-
-			printf("[%d]", cubes[i].active);
-
-
-			
-		}
-	}
-
-	void PrintCount()
-	{
-		printf("\nPrint Count \n");
-		for (int i = 0; i < count; i++)
-		{
-			if (i % (dimensions.x * dimensions.y) == 0)
-				printf("\n\nZ = %d", i / (dimensions.x * dimensions.y) - dimensions.x / 2);
-
-			if (i % dimensions.x == 0)
-				printf("\n");
-
-			printf("[%d]", cubes[i].activeAdjacentCubes);
-
-
-
 		}
 	}
 
@@ -199,7 +156,7 @@ struct PocketDimension
 				printf("\n");
 
 			if (i % (dimensions.x * dimensions.x) == 0)
-				printf("\n");
+				printf("Z=%d W=%d \n", cubes[i].position.z, cubes[i].position.w);
 
 			switch (type)
 			{
@@ -207,8 +164,6 @@ struct PocketDimension
 			case PrintType::Active: printf("[%d] ", cubes[i].active); break;
 			case PrintType::ActiveAdjacent: printf("[%d] ", cubes[i].activeAdjacentCubes); break;
 			}
-			
-			
 		}
 	}
 };
@@ -217,6 +172,7 @@ void Dec17::Puzzle()
 	std::ifstream file("Dec17_PuzzleInput.txt");
 
 	PocketDimension* dimension;
+	Cube::GenerateAdjacentCubeCoords();
 	int cycles = 6;
 
 	if (file.is_open())
@@ -228,19 +184,14 @@ void Dec17::Puzzle()
 			for(int i = 0; i<line.size(); i++)
 				chars.push_back(line[i]);
 		}
-		int size = sqrt(chars.size()) + cycles*2;
-		dimension = new PocketDimension(size, size, size);
+		int size = static_cast<int>(sqrt(chars.size()) + cycles*2);
+		dimension = new PocketDimension(size, size, size, size);
 		dimension->SetActive(chars, '#');
-
-		//dimension->PrintGrid(PocketDimension::PrintType::Coordinate);
-
-
+		printf("Count: %d \n", dimension->CountActive());
 		
 		for (int i = 0; i < 6; i++)
 		{
 			dimension->CountAdjacent();
-			//dimension->PrintGrid(PocketDimension::PrintType::Active);
-			//dimension->PrintGrid(PocketDimension::PrintType::ActiveAdjacent);
 			dimension->Evolve();
 			printf("Count: %d \n", dimension->CountActive());
 		}
