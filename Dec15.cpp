@@ -43,7 +43,7 @@ void Dec15::Puzzle()
 		}
 		else
 		{
-			int lastindex = output[lastSpoken].size() - 1;
+			size_t lastindex = output[lastSpoken].size() - 1;
 			int value = output[lastSpoken][lastindex] - output[lastSpoken][lastindex - 1];
 			output[value].push_back(turn);
 			lastSpoken = value;

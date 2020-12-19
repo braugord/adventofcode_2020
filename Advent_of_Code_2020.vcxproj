@@ -155,6 +155,7 @@
     <ClCompile Include="Dec14.cpp" />
     <ClCompile Include="Dec15.cpp" />
     <ClCompile Include="Dec16.cpp" />
+    <ClCompile Include="Dec17.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
