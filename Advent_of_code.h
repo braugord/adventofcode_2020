@@ -107,3 +107,9 @@ class Dec17
 public:
 	static void Puzzle();
 };
+
+class Dec18
+{
+public:
+	static void Puzzle();
+};
