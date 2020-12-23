@@ -367,7 +367,7 @@ void Dec18::Puzzle()
 				}
 			}
 			long double answer = expression.SolvePart2();
-			std::cout << answer << "\n";
+			//std::cout << answer << "\n";
 			sum += answer;
 		}
 
