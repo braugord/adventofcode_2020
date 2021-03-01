@@ -6,7 +6,6 @@
 #include <exception>
 #include <iostream>
 #include <unordered_map>
-#include <regex>
 
 std::vector<std::string> messages;
 std::unordered_map<int, std::vector<int>> rules;

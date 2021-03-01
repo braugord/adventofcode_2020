@@ -158,6 +158,7 @@
     <ClCompile Include="Dec17.cpp" />
     <ClCompile Include="Dec18.cpp" />
     <ClCompile Include="Dec19.cpp" />
+    <ClCompile Include="Dec20.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
